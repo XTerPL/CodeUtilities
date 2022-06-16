@@ -9,7 +9,7 @@ public class SoundUtil {
     public static void playSound(SoundEvent soundEvent) {
         MinecraftClient mc = MinecraftClient.getInstance();
         PlayerEntity player = mc.player;
-        if (mc.world != null && player != null) {
+        if (mc.world != null && player != null && soundEvent != null) {
             mc.world.playSound(
                     player.getX(),
                     player.getY(),

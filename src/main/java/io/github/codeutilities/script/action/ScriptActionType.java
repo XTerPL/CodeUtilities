@@ -1480,7 +1480,7 @@ public enum ScriptActionType {
 
             if (CodeUtilities.MC.currentScreen instanceof ScriptMenu menu) {
                 if (menu.ownedBy(ctx.script())) {
-                    menu.widgets.add(new ScriptMenuTextField("",x,y,width,height,false,identifier));
+                    menu.widgets.add(new ScriptMenuTextField("",x,y,width,height,true,identifier));
                 } else {
                     ChatUtil.error("Unable to add text field to menu! (Not owned by script)");
                 }

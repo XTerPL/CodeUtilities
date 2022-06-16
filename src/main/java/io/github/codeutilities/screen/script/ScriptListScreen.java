@@ -44,27 +44,28 @@ public class ScriptListScreen extends CScreen {
                         DrawableHelper.fill(stack, b.x, b.y, b.x + b.width, b.y + b.height, 0x33000000);
                     }
                 }
-
                 @Override
                 public boolean mouseClicked(double x, double y, int button) {
                     if (getBounds().contains(x, y)) {
                         CodeUtilities.MC.getSoundManager().play(PositionedSoundInstance.ambient(SoundEvents.UI_BUTTON_CLICK, 1f,1f));
 
+                        double relativeY = y + panel.getScroll();
+
                         if (button == 0) {
                             CodeUtilities.MC.setScreen(new ScriptEditScreen(s));
                         } else {
-                            CButton delete = new CButton((int) x, (int) y, 40, 8, "Delete", () -> {
+                            CButton delete = new CButton((int) x, (int) relativeY, 40, 8, "Delete", () -> {
                                 CodeUtilities.MC.setScreen(new ScriptDeletionScreen(s));
                             });
                             CButton enableDisable;
                             if (s.disabled()) {
-                                enableDisable = new CButton((int) x, (int) y + 8, 40, 8, "Enable", () -> {
+                                enableDisable = new CButton((int) x, (int) relativeY + 8, 40, 8, "Enable", () -> {
                                     s.setDisabled(false);
                                     ScriptManager.getInstance().saveScript(s);
                                     CodeUtilities.MC.setScreen(new ScriptListScreen());
                                 });
                             } else {
-                                enableDisable = new CButton((int) x, (int) y + 8, 40, 8, "Disable", () -> {
+                                enableDisable = new CButton((int) x, (int) relativeY + 8, 40, 8, "Disable", () -> {
                                     s.setDisabled(true);
                                     ScriptManager.getInstance().saveScript(s);
                                     CodeUtilities.MC.setScreen(new ScriptListScreen());
