@@ -4,6 +4,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import io.github.codeutilities.CodeUtilities;
 import io.github.codeutilities.commands.Command;
 import io.github.codeutilities.screen.EditNbtScreen;
+import io.github.codeutilities.screen.script.ScriptListScreen;
 import io.github.codeutilities.util.chat.ChatType;
 import io.github.codeutilities.util.chat.ChatUtil;
 import net.fabricmc.fabric.api.client.command.v1.FabricClientCommandSource;
@@ -19,18 +20,19 @@ public class EditNbtCommand implements Command {
                 .executes(ctx -> {
                     MinecraftClient mc = CodeUtilities.MC;
 
-                    ItemStack stack = mc.player.getActiveItem();
-
-                    if (stack.isEmpty()) {
-                        ChatUtil.sendMessage("You must be holding an item to edit its NBT data.", ChatType.FAIL);
-                        return 1;
-                    }
                     if (!mc.player.isCreative()) {
                         ChatUtil.sendMessage("You must be in creative mode to edit an item's NBT data.", ChatType.FAIL);
                         return 1;
                     }
 
-                    mc.setScreen(new EditNbtScreen(stack));
+                    ItemStack stack = mc.player.getMainHandStack();
+
+                    if (stack.isEmpty()) {
+                        ChatUtil.sendMessage("You must be holding an item to edit its NBT data.", ChatType.FAIL);
+                        return 1;
+                    }
+
+                    mc.send(() -> mc.setScreen(new EditNbtScreen(stack)));
 
                     return 1;
                 })

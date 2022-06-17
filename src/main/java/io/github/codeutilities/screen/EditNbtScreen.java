@@ -4,6 +4,7 @@ import io.github.codeutilities.CodeUtilities;
 import io.github.codeutilities.screen.widget.CTextField;
 import io.github.codeutilities.util.chat.ChatUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.visitor.NbtTextFormatter;
