@@ -28,6 +28,22 @@ public class ScriptNumberValue extends ScriptValue {
     }
 
     @Override
+    public int compare(ScriptValue other) {
+        if(other instanceof ScriptNumberValue) {
+            if(asNumber() == other.asNumber()) {
+                return 0;
+            }
+
+            if(asNumber() > other.asNumber()) {
+                return 1;
+            }
+
+            return -1;
+        }
+        return asText().compareTo(other.asText());
+    }
+
+    @Override
     public String asText() {
         if (value % 1 == 0) {
             return String.valueOf((int) value);

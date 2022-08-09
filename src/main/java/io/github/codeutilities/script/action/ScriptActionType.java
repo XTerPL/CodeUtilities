@@ -21,12 +21,7 @@ import io.github.codeutilities.script.menu.ScriptMenuTextField;
 import io.github.codeutilities.script.menu.ScriptWidget;
 import io.github.codeutilities.script.util.ScriptValueItem;
 import io.github.codeutilities.script.util.ScriptValueJson;
-import io.github.codeutilities.script.values.ScriptDictionaryValue;
-import io.github.codeutilities.script.values.ScriptListValue;
-import io.github.codeutilities.script.values.ScriptNumberValue;
-import io.github.codeutilities.script.values.ScriptTextValue;
-import io.github.codeutilities.script.values.ScriptUnknownValue;
-import io.github.codeutilities.script.values.ScriptValue;
+import io.github.codeutilities.script.values.*;
 import io.github.codeutilities.util.ComponentUtil;
 import io.github.codeutilities.util.FileUtil;
 import io.github.codeutilities.util.ItemUtil;
@@ -1594,6 +1589,29 @@ public enum ScriptActionType {
         .hasChildren(true)
         .action(ctx -> {
             ctx.setLastIfResult(!ctx.lastIfResult());
+    })),
+
+    SORT_LIST(builder -> builder.name("Sort List")
+        .description("Sorts a list in ascending order.")
+        .icon(Items.REPEATING_COMMAND_BLOCK)
+        .arg("Result", ScriptActionArgumentType.VARIABLE)
+        .arg("List", ScriptActionArgumentType.LIST, b -> b.optional(true))
+        .category(ScriptActionCategory.LISTS)
+        .action(ctx -> {
+            List<ScriptValue> list = null;
+
+            if(ctx.argMap().containsKey("List"))
+            {
+                list = ctx.value("List").asList();
+            }
+            else
+            {
+                list = ctx.value("Result").asList();
+            }
+
+            list.sort(new ScriptValueComparator());
+
+            ctx.context().setVariable(ctx.variable("Result").name(), new ScriptListValue(list));
     }));
 
     private Consumer<ScriptActionContext> action = (ctx) -> {
